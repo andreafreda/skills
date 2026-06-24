@@ -11,19 +11,19 @@ to make Claude write code I actually want to maintain.
 
 Out of the box, AI tends to produce code that *works* but reads like it was
 generated: dense one-liners, cryptic names, clever tricks, zero docstrings, or
-the opposite — a tower of abstractions for a single use case. `codecraft` steers
+the opposite, a tower of abstractions for a single use case. `codecraft` steers
 Claude toward code a real engineer would be happy to inherit.
 
 When it's active, Claude:
 
-- 🧠 **Favors the obvious solution** over the clever one — no line you have to stop and decode.
-- 🏷️ **Names things fully** — intention-revealing identifiers, no cryptic abbreviations.
+- 🧠 **Favors the obvious solution** over the clever one, no line you have to stop and decode.
+- 🏷️ **Names things fully**, intention-revealing identifiers, no cryptic abbreviations.
 - 💬 **Documents every main method** with a human-oriented docstring: *what it's for and when to reach for it*, not a restatement of the signature.
-- 🧩 **Applies SOLID with judgement** — real seams, not ceremony (YAGNI wins ties).
-- 🚫 **Avoids classic code smells** — long parameter lists, feature envy, primitive obsession, magic numbers, boolean traps, dead code…
-- 📖 **Optimizes for the next reader** — linear flow, consistent shapes, comments that explain *why*.
+- 🧩 **Applies SOLID with judgement**, real seams, not ceremony (YAGNI wins ties).
+- 🚫 **Avoids classic code smells**, long parameter lists, feature envy, primitive obsession, magic numbers, boolean traps, dead code…
+- 📖 **Optimizes for the next reader**, linear flow, consistent shapes, comments that explain *why*.
 
-> Readability first. Not shorter code — *clearer* code.
+> Readability first. Not shorter code, *clearer* code.
 
 ### Install
 
