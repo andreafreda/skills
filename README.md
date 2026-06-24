@@ -8,22 +8,22 @@ Using the [`skills`](https://github.com/mattpocock/skills) CLI:
 
 ```bash
 # install one skill globally
-npx skills add andreafreda/skills skill=simplecode -y -g
+npx skills add andreafreda/skills skill=codecraft -y -g
 
 # or into the current project
-npx skills add andreafreda/skills skill=simplecode -y
+npx skills add andreafreda/skills skill=codecraft -y
 ```
 
 ## Skills
 
-### `simplecode`
+### `codecraft`
 
 Write code the way a thoughtful human engineer would — plain, obvious, and easy
 to follow — not machine-dense or over-abstracted. Encourages readability first,
 SOLID with judgement, avoidance of classic code smells, and a human-oriented
 docstring on every main method.
 
-Trigger it explicitly with `/simplecode`, or it activates when writing/refactoring
+Trigger it explicitly with `/codecraft`, or it activates when writing/refactoring
 code or when readability/simplicity comes up.
 
 ## Layout
