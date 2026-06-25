@@ -4,27 +4,10 @@ Use this file when you work in a language you do not know well, or one without a
 dedicated example file here. The shape of the advice is the same everywhere; only
 the syntax changes. Translate the pseudocode into the target language's idioms.
 
-These examples back the principles in `SKILL.md`. Read the principle first, then
-the example.
-
-## A frame for "simple": Beck's four rules of simple design
-
-When you are unsure whether code is simple enough, Kent Beck's four rules give an
-ordered test. Earlier rules win ties.
-
-1. **Passes the tests.** It actually works. Nothing below matters if this fails.
-2. **Reveals intention.** A reader sees what it is for without decoding it. This
-   is codecraft's north star (principle 1, "obvious over clever").
-3. **No duplication.** Each fact lives in one place, but only once a real concept
-   justifies the abstraction (principle 6, and the "clarity beats DRY" tie-break).
-4. **Fewest elements.** Remove anything that does not serve the three rules above.
-   No class, layer or parameter that earns nothing (YAGNI).
-
-The order matters: reveal intention before chasing duplication, and never add an
-element that makes the code harder to read just to satisfy a lower rule.
-
-Source: Martin Fowler, "Beck Design Rules"
-(https://martinfowler.com/bliki/BeckDesignRules.html).
+These examples back the principles in `SKILL.md`. The principles, tie-breaks,
+Beck's four rules and the smell list all live there and still apply in full,
+whatever the language; this file only adds worked examples. Read the principle in
+`SKILL.md` first, then the example here.
 
 ## Name things fully (principle 2)
 

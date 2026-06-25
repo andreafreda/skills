@@ -113,9 +113,11 @@ principles in that language's own idioms.
 | C# | `reference/csharp.md` | Writing or reviewing C#. |
 | Any other | `reference/general.md` | A language not listed above, or when you want the principle stated language-agnostically. |
 
-When in doubt, or working outside your strongest language, open
-`reference/general.md`: it states each principle and the SOLID shapes in plain
-pseudocode so you can still keep the code clear and SOLID.
+The reference files only add worked examples; they do not hold any rule of their
+own. If the language is not listed, or no example fits, the principles, tie-breaks,
+Beck's four rules and the smell list in this file still apply in full. Hold to
+them and translate them into the target language's idioms; `reference/general.md`
+gives language-agnostic pseudocode to calibrate against when you need it.
 
 ## SOLID (apply with judgement)
 
