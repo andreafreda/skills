@@ -31,7 +31,11 @@ top smells.
 
 ---
 
-## 2. Add a LICENSE  `TODO`
+## 2. Add a LICENSE  `DONE`
+
+> Done: MIT license added at repo root, copyright Andrea Freda 2026, with a
+> License section in the README.
+
 
 **Problem.** The repo is public but has no license, so reuse and forking are
 legally ambiguous.

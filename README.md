@@ -67,3 +67,10 @@ the headline ones:
 - **Kent Beck's four rules of simple design**, via [Martin Fowler](https://martinfowler.com/bliki/BeckDesignRules.html).
 - **SOLID principles** ([Wikipedia](https://en.wikipedia.org/wiki/SOLID), [Baeldung](https://www.baeldung.com/solid-principles)).
 - **Python caching idioms** ([standard library docs](https://docs.python.org/3/library/functools.html), [Real Python](https://realpython.com/lru-cache-python/)).
+
+---
+
+## License
+
+[MIT](LICENSE). Use it, modify it, ship it, sell it; just keep the copyright
+notice.
