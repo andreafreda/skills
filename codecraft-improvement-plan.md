@@ -86,7 +86,17 @@ rules (principle 11).
 
 ---
 
-## 5. Eval the skill with skill-creator  `TODO`
+## 5. Eval the skill with skill-creator  `BLOCKED / folded into 6`
+
+> Attempted: ran skill-creator's `run_loop` description-optimizer. It is not
+> runnable in this nested session: `claude -p` returns `401 Invalid
+> authentication credentials`, so every trigger check failed auth and was
+> counted as not-triggered (bogus recall 0% / precision 100% / accuracy 57%;
+> even `/codecraft` scored 0/3, proving the harness, not the skill, is broken).
+> Decision: drop the automatic triggering loop here and fold quality evaluation
+> into the manual cold-review loop of item 6. Could be revisited by running the
+> loop from a separately authenticated terminal.
+
 
 **Problem.** There is no measurement that the skill triggers when it should and
 actually improves output. Everything so far is judgement.

@@ -86,7 +86,7 @@ def apply_discount(order_id: str) -> None:
 
 # after: a pure core decides, a thin shell does the IO
 def discounted_total(total: float) -> float:
-    """10% off orders over 100. Pure, so it is trivial to unit test."""
+    """10% off orders above 100. Pure, so it is trivial to unit test."""
     return total * 0.9 if total > 100 else total
 
 def apply_discount(order_id: str) -> None:

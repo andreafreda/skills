@@ -2,8 +2,8 @@
 
 The per-language files cover the Core spine. This file covers the principles that
 are about style and judgement rather than a code shape, so one set of examples
-serves every language: principles 1, 3, 5, 6, 7 and 11, plus the smells listed in
-`SKILL.md` that did not yet have a worked example. The rules live in `SKILL.md`;
+serves every language: principles 1, 3, 5, 6, 7 and 11, plus worked examples for
+several of the smells listed in `SKILL.md`. The rules live in `SKILL.md`;
 these are illustrations. Examples are in a mix of languages; apply your own
 language's idioms.
 
@@ -140,3 +140,8 @@ class Order:
     def total(self) -> float:
         return sum(line.price * line.qty for line in self.lines) + self.shipping
 ```
+
+Note: this moves the call site from `invoice.total(order)` to `order.total()`, so
+it is a design change, not a behaviour-preserving readability refactor. Treat it
+as such (it touches the public surface), unlike the refactors in `SKILL.md` that
+must keep the API stable.

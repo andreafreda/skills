@@ -92,7 +92,7 @@ async function applyDiscount(orderId: string): Promise<void> {
 }
 
 // after: a pure core decides, a thin shell does the IO
-/** 10% off orders over 100. Pure, so it is trivial to unit test. */
+/** 10% off orders above 100. Pure, so it is trivial to unit test. */
 function discountedTotal(total: number): number {
   return total > 100 ? total * 0.9 : total;
 }

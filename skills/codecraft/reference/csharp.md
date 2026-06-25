@@ -81,7 +81,7 @@ public async Task ApplyDiscountAsync(string orderId) {
 }
 
 // after: a pure method decides, a thin shell does the IO
-/// <summary>10% off orders over 100. Pure, so it is trivial to unit test.</summary>
+/// <summary>10% off orders above 100. Pure, so it is trivial to unit test.</summary>
 static decimal DiscountedTotal(decimal total) => total > 100 ? total * 0.9m : total;
 
 public async Task ApplyDiscountAsync(string orderId) {
@@ -106,6 +106,9 @@ order.Total = order.Total * 1.22m;
 order.Ref = order.Ref.ToUpper();
 ```
 
+The reflective "before" also fails at runtime on `init` or read-only properties,
+not just at the type level, so it is buggier as well as harder to read.
+
 ### Explicit beats magic (tie-break rule)
 
 ```csharp
@@ -113,16 +116,16 @@ order.Ref = order.Ref.ToUpper();
 [Retry(3)]
 public Response Fetch(string url) { /* ... */ }
 
-// after: the loop shows exactly what happens on failure
+// after: the loop shows exactly what happens on failure (3 attempts, no more)
 public Response FetchWithRetries(string url) {
     for (int attempt = 0; attempt < 3; attempt++) {
         try {
             return Fetch(url);
-        } catch (TransientException) when (attempt < 2) {
-            // retry
+        } catch (TransientException) {
+            if (attempt == 2) throw;
         }
     }
-    return Fetch(url); // last attempt, let its exception surface
+    throw new InvalidOperationException("unreachable");
 }
 ```
 

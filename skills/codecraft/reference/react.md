@@ -118,7 +118,12 @@ function useHelpers(userId: string) {
 function UserMenu({ userId }: { userId: string }) {
   const user = useUser(userId);
   const theme = useContext(ThemeContext);
-  const [open, setOpen] = useState(false);
   // a hook earns its place when it wraps a real, reusable concept, e.g. useDisclosure()
+  const [open, setOpen] = useState(false);
+  return (
+    <Menu theme={theme} open={open} onToggle={() => setOpen((v) => !v)}>
+      {user?.name}
+    </Menu>
+  );
 }
 ```

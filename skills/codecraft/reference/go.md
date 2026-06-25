@@ -98,16 +98,16 @@ func ApplyDiscount(db *DB, id string) error {
         return err
     }
     if order.Total > 100 {
-        order.Total = order.Total * 9 / 10
+        order.Total = order.Total * 0.9
     }
     return db.Save(order)
 }
 
 // after: a pure function decides, the shell does the IO
 // discountedTotal is pure, so it is trivial to test.
-func discountedTotal(total int) int {
+func discountedTotal(total float64) float64 {
     if total > 100 {
-        return total * 9 / 10
+        return total * 0.9
     }
     return total
 }
@@ -154,8 +154,12 @@ func Withdraw(a *Account, amount int) (ok bool) {
     return true
 }
 
-// after: an explicit error return; the caller sees every outcome
+// after: an explicit error return; the caller sees every outcome, and the nil
+// guard from the guard-clause example is kept rather than masked by recover
 func Withdraw(a *Account, amount int) error {
+    if a == nil {
+        return errors.New("withdraw from nil account")
+    }
     if amount > a.Balance {
         return fmt.Errorf("insufficient funds: have %d, need %d", a.Balance, amount)
     }

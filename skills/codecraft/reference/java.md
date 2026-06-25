@@ -92,7 +92,7 @@ void applyDiscount(String orderId) {
 }
 
 // after: a pure method decides, a thin shell does the IO
-/** 10% off orders over 100. Pure, so it is trivial to unit test. */
+/** 10% off orders above 100. Pure, so it is trivial to unit test. */
 static double discountedTotal(double total) {
     return total > 100 ? total * 0.9 : total;
 }

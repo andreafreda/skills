@@ -90,7 +90,8 @@ async function loadUser(id) {
   try {
     return await api.get(`/users/${id}`);
   } catch (err) {
-    if (err.status === 404) return null;
+    // api.get rejects with an HttpError carrying a numeric `status`
+    if (err instanceof HttpError && err.status === 404) return null;
     throw err;
   }
 }

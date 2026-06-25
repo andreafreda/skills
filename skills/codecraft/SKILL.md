@@ -116,8 +116,10 @@ principles in that language's own idioms.
 | Any other | `reference/general.md` | A language not listed above, or when you want the principle stated language-agnostically. |
 | Style and smells | `reference/style-and-smells.md` | Examples for the judgement principles (1, 3, 5, 6, 7, 11) and the smells, shared across languages. |
 
-The language files carry the same eight-example Core in the same order.
-`reference/react.md` and `reference/style-and-smells.md` are not Core files:
+The language files carry the same eight-example Core in the same order; the Core
+is identical across them, but each file's optional language-specific extras
+differ. `reference/react.md` and `reference/style-and-smells.md` are not Core
+files:
 `react.md` covers React-specific shapes and points back to the JavaScript and
 TypeScript Core; `style-and-smells.md` covers the principles that are about
 judgement rather than a code shape, once for all languages.
@@ -138,7 +140,7 @@ exists; until then, the plain version wins.
 
 - **S, Single Responsibility:** one reason to change per module, class, function.
   A class that both computes a thing and sends it over the network has two reasons
-  to change; split them (see the report builder/mailer example).
+  to change; split them (worked example in the Java and general reference files).
 - **O, Open/Closed:** open for extension, closed for modification. Add a new
   behaviour behind an interface instead of editing a stable `if`/`switch` every
   time a case appears.
