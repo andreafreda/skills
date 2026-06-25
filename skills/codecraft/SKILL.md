@@ -42,6 +42,23 @@ two principles pull against each other:
 
 Still unclear? Pick the version a new teammate would understand fastest.
 
+### Is it simple enough? Beck's four rules
+
+When you cannot tell whether code is simple enough, run Kent Beck's four rules of
+simple design in order; an earlier rule wins a tie with a later one:
+
+1. **Passes the tests.** It works. Nothing below matters until this holds.
+2. **Reveals intention.** A reader sees what it is for without decoding it. This
+   is the north star above.
+3. **No duplication.** Each fact lives in one place, but only once a real concept
+   earns the abstraction (principle 6, and "clarity beats DRY").
+4. **Fewest elements.** Drop anything that serves none of the three rules above
+   (YAGNI).
+
+The order is the point: reveal intention before removing duplication, and never
+add an element that hurts readability to satisfy a lower rule. (Kent Beck, via
+Martin Fowler, "Beck Design Rules".)
+
 ## Principles
 
 1. **Obvious over clever.** Prefer the plain solution a competent engineer reaches
@@ -83,128 +100,49 @@ Still unclear? Pick the version a new teammate would understand fastest.
 
 ## Examples (before and after)
 
-Calibration across languages; apply each language's idioms.
+Worked before/after examples live in per-language files so this guide stays
+short and you load only the calibration you need. Each file covers the same
+principles in that language's own idioms.
 
-Naming and magic numbers (principle 2), Python:
+| Language | File | When to open it |
+| --- | --- | --- |
+| Python | `reference/python.md` | Writing or reviewing Python. |
+| TypeScript | `reference/typescript.md` | Writing or reviewing TypeScript or JavaScript. |
+| Go | `reference/go.md` | Writing or reviewing Go. |
+| Java | `reference/java.md` | Writing or reviewing Java. |
+| C# | `reference/csharp.md` | Writing or reviewing C#. |
+| Any other | `reference/general.md` | A language not listed above, or when you want the principle stated language-agnostically. |
 
-```python
-# before: the name and the literal hide the intent
-def calc(n, b):
-    return n + b * 0.22
-
-# after: the name states the job, the constant names the value
-TAX_RATE = 0.22
-def gross_with_tax(net: float, taxable_base: float) -> float:
-    return net + taxable_base * TAX_RATE
-```
-
-Guard clauses over nesting (principle 4), Go:
-
-```go
-// before: the happy path is buried under nested conditions
-func Withdraw(a *Account, amount int) bool {
-    if a != nil {
-        if a.Active {
-            if amount <= a.Balance {
-                a.Balance -= amount
-                return true
-            }
-        }
-    }
-    return false
-}
-
-// after: reject the edge cases first, then the happy path reads straight
-func Withdraw(a *Account, amount int) bool {
-    if a == nil || !a.Active {
-        return false
-    }
-    if amount > a.Balance {
-        return false
-    }
-    a.Balance -= amount
-    return true
-}
-```
-
-Visible contract and a doc comment (principle 8), TypeScript:
-
-```ts
-// before
-function find(u: any, l: any) { /* ... */ }
-
-// after: types state the contract, the comment states the intent
-/** A user's most recent orders, newest first. Returns [] if they have none. */
-function recentOrders(userId: string, limit: number): Order[] { /* ... */ }
-```
-
-Handle errors honestly (principle 9), C#:
-
-```csharp
-// before: a blanket catch hides every bug as "not found"
-try { return Load(id); }
-catch { return null; }
-
-// after: catch the case you expect, let the rest surface
-try { return Load(id); }
-catch (FileNotFoundException) { return null; }
-```
-
-Make the contract visible (principle 8), Java:
-
-```java
-// before
-public Object handle(Object req) { ... }
-
-// after: the signature alone tells the caller how to use it
-/** Validate and book a reservation; throws SlotTakenException if the slot is gone. */
-public Booking book(ReservationRequest request) { ... }
-```
-
-Clarity beats DRY (tie-break rule), Python:
-
-```python
-# before: a "clever" helper the reader must chase to understand either caller
-def _apply(obj, key, fn):
-    setattr(obj, key, fn(getattr(obj, key)))
-_apply(order, "total", lambda v: v * 1.22)
-_apply(order, "ref", str.upper)
-
-# after: two honest lines, each readable on its own, no helper to chase
-order.total = order.total * 1.22
-order.ref = order.ref.upper()
-```
-
-Explicit beats magic (tie-break rule), Python:
-
-```python
-# before: a decorator hides the retry policy from the call site
-@retry(times=3)
-def fetch(url): ...
-
-# after: the loop shows exactly what happens on failure
-def fetch_with_retries(url):
-    for attempt in range(3):
-        try:
-            return fetch(url)
-        except TransientError:
-            if attempt == 2:
-                raise
-```
+When in doubt, or working outside your strongest language, open
+`reference/general.md`: it states each principle and the SOLID shapes in plain
+pseudocode so you can still keep the code clear and SOLID.
 
 ## SOLID (apply with judgement)
 
 Readability comes first (see the tie-break rules), but still design with SOLID in
-mind, and never add ceremony for a single case (YAGNI):
+mind, and never add ceremony for a single case (YAGNI). The throughline: depend
+on abstractions and give each unit one job, so a change touches one place instead
+of rippling. Each principle earns its keep only when a real second case or seam
+exists; until then, the plain version wins.
 
 - **S, Single Responsibility:** one reason to change per module, class, function.
-- **O, Open/Closed:** extend by adding an implementation behind an interface, not
-  by branching stable code.
+  A class that both computes a thing and sends it over the network has two reasons
+  to change; split them (see the report builder/mailer example).
+- **O, Open/Closed:** open for extension, closed for modification. Add a new
+  behaviour behind an interface instead of editing a stable `if`/`switch` every
+  time a case appears.
 - **L, Liskov:** an implementation is safely usable wherever its interface is,
-  same contract, no weaker guarantees.
-- **I, Interface Segregation:** small focused interfaces; no forced stub methods.
-- **D, Dependency Inversion:** depend on an abstraction (a provider, a
-  repository), not a concrete vendor or library at the call site.
+  same contract, no weaker guarantees and no surprise exceptions.
+- **I, Interface Segregation:** small focused interfaces; no client forced to
+  depend on (or stub) methods it never calls.
+- **D, Dependency Inversion:** high-level code depends on an abstraction (a
+  provider, a repository), not a concrete vendor or library at the call site;
+  inject the concrete implementation from the edge.
+
+Worked SOLID examples (Open/Closed, Dependency Inversion, Single Responsibility)
+are in the per-language files and in `reference/general.md`. Canonical references:
+the SOLID definitions on Wikipedia and Baeldung's "A Solid Guide to SOLID
+Principles".
 
 ## Smells to fix
 
