@@ -2,20 +2,14 @@
 
 Apply TypeScript's own idioms: typed signatures over `any`, JSDoc on the public
 surface, discriminated unions over boolean flags, narrow early. Examples back the
-principles in `SKILL.md`.
+principles in `SKILL.md`, which holds the rules.
 
-## Make the contract visible, document it (principle 8)
+The "Core" section is the same set of examples in every language file, in the
+same order, so you can calibrate across languages.
 
-```ts
-// before: any in, any out; the caller learns nothing from the signature
-function find(u: any, l: any) { /* ... */ }
+## Core
 
-// after: types state the contract, the comment states the intent
-/** A user's most recent orders, newest first. Returns [] if they have none. */
-function recentOrders(userId: string, limit: number): Order[] { /* ... */ }
-```
-
-## Name things fully, name the magic number (principle 2)
+### Name things fully, name the magic number (principle 2)
 
 ```ts
 // before: the name and the literal hide the intent
@@ -31,7 +25,7 @@ function grossWithTax(net: number, taxableBase: number): number {
 }
 ```
 
-## Linear flow with guard clauses (principle 4)
+### Linear flow with guard clauses (principle 4)
 
 ```ts
 // before: the happy path is buried under nested conditions
@@ -56,7 +50,18 @@ function withdraw(account: Account | null, amount: number): boolean {
 }
 ```
 
-## Handle errors honestly (principle 9)
+### Make the contract visible, document it (principle 8)
+
+```ts
+// before: any in, any out; the caller learns nothing from the signature
+function find(u: any, l: any) { /* ... */ }
+
+// after: types state the contract, the comment states the intent
+/** A user's most recent orders, newest first. Returns [] if they have none. */
+function recentOrders(userId: string, limit: number): Order[] { /* ... */ }
+```
+
+### Handle errors honestly (principle 9)
 
 ```ts
 // before: a blanket catch swallows every error as null
@@ -75,7 +80,92 @@ try {
 }
 ```
 
-## Boolean trap: model the concept instead of flags (readability smell)
+### Keep side effects at the edges (principle 10)
+
+```ts
+// before: pure decision and IO are tangled, neither is easy to test
+async function applyDiscount(orderId: string): Promise<void> {
+  const order = await db.load(orderId);
+  if (order.total > 100) order.total *= 0.9;
+  await db.save(order);
+}
+
+// after: a pure core decides, a thin shell does the IO
+/** 10% off orders over 100. Pure, so it is trivial to unit test. */
+function discountedTotal(total: number): number {
+  return total > 100 ? total * 0.9 : total;
+}
+
+async function applyDiscount(orderId: string): Promise<void> {
+  const order = await db.load(orderId);
+  order.total = discountedTotal(order.total);
+  await db.save(order);
+}
+```
+
+### Clarity beats DRY (tie-break rule)
+
+```ts
+// before: a "clever" helper the reader must chase to understand either caller
+function apply<T, K extends keyof T>(obj: T, key: K, fn: (v: T[K]) => T[K]): void {
+  obj[key] = fn(obj[key]);
+}
+apply(order, "total", (v) => v * 1.22);
+apply(order, "ref", (v) => v.toUpperCase());
+
+// after: two honest lines, each readable on its own, no helper to chase
+order.total = order.total * 1.22;
+order.ref = order.ref.toUpperCase();
+```
+
+### Explicit beats magic (tie-break rule)
+
+```ts
+// before: a method decorator hides the retry policy from the call site
+class Api {
+  @retry(3)
+  fetch(url: string) { /* ... */ }
+}
+
+// after: the loop shows exactly what happens on failure
+async function fetchWithRetries(url: string): Promise<Response> {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      return await fetch(url);
+    } catch (err) {
+      if (attempt === 2) throw err;
+    }
+  }
+  throw new Error("unreachable");
+}
+```
+
+### Dependency Inversion (SOLID, apply with judgement)
+
+```ts
+// the abstraction the high-level code depends on
+interface Notifier {
+  notify(recipient: string, message: string): void;
+}
+
+// before: OrderService is welded to one concrete vendor
+class OrderService {
+  private mailer = new SendGridClient();
+}
+
+// after: it depends on Notifier; the vendor is injected
+class OrderService {
+  constructor(private readonly notifier: Notifier) {}
+
+  confirm(order: Order): void {
+    this.notifier.notify(order.email, "Confirmed");
+  }
+}
+```
+
+## Language-specific notes
+
+### Boolean trap: model the concept instead of flags (readability smell)
 
 ```ts
 // before: createUser(true, false) is unreadable at the call site
@@ -88,7 +178,7 @@ function createUser(opts: CreateUserOptions): User { /* ... */ }
 createUser({ role: "admin", welcomeEmail: false });
 ```
 
-## Open/Closed with an interface (SOLID, apply with judgement)
+### Open/Closed with an interface (SOLID, apply with judgement)
 
 ```ts
 // before: every new payment method edits the same switch
