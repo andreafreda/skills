@@ -53,7 +53,8 @@ Each skill is a directory under `skills/` with a `SKILL.md`: YAML frontmatter
 per-language worked examples, lives in a `reference/` folder so the main guide
 stays short and Claude loads only what it needs. For `codecraft` that means one
 file per language (`python`, `typescript`, `javascript`, `go`, `java`, `csharp`)
-plus a frontend-oriented `react` extension and a language-agnostic `general.md`.
+plus a frontend-oriented `react` extension, a shared `style-and-smells` file for
+the judgement principles, and a language-agnostic `general.md`.
 
 ---
 

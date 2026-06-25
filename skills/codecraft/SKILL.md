@@ -114,10 +114,13 @@ principles in that language's own idioms.
 | Java | `reference/java.md` | Writing or reviewing Java. |
 | C# | `reference/csharp.md` | Writing or reviewing C#. |
 | Any other | `reference/general.md` | A language not listed above, or when you want the principle stated language-agnostically. |
+| Style and smells | `reference/style-and-smells.md` | Examples for the judgement principles (1, 3, 5, 6, 7, 11) and the smells, shared across languages. |
 
-Every file except `reference/react.md` carries the same eight-example Core in the
-same order. `react.md` is an extension: it covers only React-specific shapes and
-points back to the JavaScript and TypeScript files for the Core.
+The language files carry the same eight-example Core in the same order.
+`reference/react.md` and `reference/style-and-smells.md` are not Core files:
+`react.md` covers React-specific shapes and points back to the JavaScript and
+TypeScript Core; `style-and-smells.md` covers the principles that are about
+judgement rather than a code shape, once for all languages.
 
 The reference files only add worked examples; they do not hold any rule of their
 own. If the language is not listed, or no example fits, the principles, tie-breaks,
@@ -156,7 +159,8 @@ Principles".
 
 The principles above say what good looks like; these are extra detection signals
 not already covered by a numbered principle. Fix the structural ones first, they
-hide bugs or block change.
+hide bugs or block change. Worked examples for several of these smells are in
+`reference/style-and-smells.md`.
 
 Structural:
 
