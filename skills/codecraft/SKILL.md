@@ -60,23 +60,22 @@ Still unclear? Pick the version a new teammate would understand fastest.
 7. **Length is fine; density is not.** Many short obvious functions beat few dense
    ones. Split a file when it mixes unrelated concerns; a function past roughly 40
    lines (more than one screen) is a split candidate.
-8. **Make the contract visible.** Type public functions using the language's own
-   system (Python hints, TypeScript and C# and Java typed signatures, Go typed
-   params). The signature plus one line of intent should tell the reader how to
-   use it without reading the body.
-9. **Document the public surface, human-first.** Give public or exported symbols,
-   and any function past roughly 40 lines, a doc comment
-   saying what it is for and when to reach for it (not a restatement of the
-   signature); note non-obvious inputs, outputs, side effects and gotchas. For
-   private one-liners follow the project's existing convention: if it documents
-   sparingly, do the same.
-10. **Handle errors honestly.** Catch the specific error you expect, not a blanket
-    catch-all that hides bugs. Never swallow an error silently; if you log or
-    re-raise, include enough context to act on. Let unexpected failures surface.
-11. **Keep side effects at the edges.** Separate pure logic (decisions,
+8. **Make the contract visible, and document it human-first.** Type public
+   functions using the language's own system (Python hints, TypeScript and C# and
+   Java typed signatures, Go typed params). The signature plus one line of intent
+   should tell the reader how to use it without reading the body. Give public or
+   exported symbols, and any function past the split threshold (principle 7), a
+   doc comment saying what it is for and when to reach for it (not a restatement
+   of the signature); note non-obvious inputs, outputs, side effects and gotchas.
+   For private one-liners follow the project's existing convention: if it
+   documents sparingly, do the same.
+9. **Handle errors honestly.** Catch the specific error you expect, not a blanket
+   catch-all that hides bugs. Never swallow an error silently; if you log or
+   re-raise, include enough context to act on. Let unexpected failures surface.
+10. **Keep side effects at the edges.** Separate pure logic (decisions,
     calculations, shaping data) from IO (database, network, files, clock). Pure
     functions are trivial to read and test; wrap the IO thinly around them.
-12. **Write prose like a human.** In doc comments, comments, commit messages and
+11. **Write prose like a human.** In doc comments, comments, commit messages and
     READMEs, do not use a dash as a clause connector (em dash or spaced
     `word - word`); it reads as machine-generated. Use a comma, colon, parentheses
     or full stop, and avoid arrow glyphs. Hyphens inside words are fine
@@ -128,7 +127,7 @@ func Withdraw(a *Account, amount int) bool {
 }
 ```
 
-Visible contract and a doc comment (principles 8 and 9), TypeScript:
+Visible contract and a doc comment (principle 8), TypeScript:
 
 ```ts
 // before
@@ -139,7 +138,7 @@ function find(u: any, l: any) { /* ... */ }
 function recentOrders(userId: string, limit: number): Order[] { /* ... */ }
 ```
 
-Handle errors honestly (principle 10), C#:
+Handle errors honestly (principle 9), C#:
 
 ```csharp
 // before: a blanket catch hides every bug as "not found"
@@ -160,6 +159,37 @@ public Object handle(Object req) { ... }
 // after: the signature alone tells the caller how to use it
 /** Validate and book a reservation; throws SlotTakenException if the slot is gone. */
 public Booking book(ReservationRequest request) { ... }
+```
+
+Clarity beats DRY (tie-break rule), Python:
+
+```python
+# before: a "clever" helper the reader must chase to understand either caller
+def _apply(obj, key, fn):
+    setattr(obj, key, fn(getattr(obj, key)))
+_apply(order, "total", lambda v: v * 1.22)
+_apply(order, "ref", str.upper)
+
+# after: two honest lines, each readable on its own, no helper to chase
+order.total = order.total * 1.22
+order.ref = order.ref.upper()
+```
+
+Explicit beats magic (tie-break rule), Python:
+
+```python
+# before: a decorator hides the retry policy from the call site
+@retry(times=3)
+def fetch(url): ...
+
+# after: the loop shows exactly what happens on failure
+def fetch_with_retries(url):
+    for attempt in range(3):
+        try:
+            return fetch(url)
+        except TransientError:
+            if attempt == 2:
+                raise
 ```
 
 ## SOLID (apply with judgement)
@@ -229,5 +259,16 @@ magic appears. Skip it when there is only one such function (YAGNI).
 ## Check before committing
 
 Read the diff as a stranger would; rewrite any line that makes you pause to
-decode it. Then scan for a structural smell or a SOLID violation a cheap change
-would fix, and fix it if it keeps the code simple.
+decode it. Then run through:
+
+- [ ] Names reveal intent; no cryptic abbreviations (principle 2).
+- [ ] Flow reads top to bottom; edge cases guarded early (principle 4).
+- [ ] No function past the split threshold left dense or undocumented
+      (principles 7, 8).
+- [ ] Errors caught specifically; nothing swallowed silently (principle 9).
+- [ ] Side effects kept at the edges; pure logic separated (principle 10).
+- [ ] No dash as a clause connector, no arrow glyphs in prose (principle 11).
+- [ ] Public API unchanged by any refactor; tests green with no edits.
+- [ ] One kind of change per commit.
+- [ ] A structural smell or SOLID violation a cheap change would fix is fixed,
+      if it keeps the code simple.
