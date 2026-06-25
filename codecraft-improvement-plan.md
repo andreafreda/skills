@@ -47,7 +47,13 @@ with the owner, e.g. MIT).
 
 ---
 
-## 3. Validate internal links  `TODO`
+## 3. Validate internal links  `DONE`
+
+> Done: all `reference/*.md` links in SKILL.md and the reference files resolve,
+> and the README's relative links resolve. No broken links, no fixes needed.
+> Repeatable check (run from `skills/codecraft/`):
+> `grep -rhoE 'reference/[a-z-]+\.md' SKILL.md reference/*.md | sort -u | while read l; do [ -f "$l" ] && echo "OK $l" || echo "MISS $l"; done`
+
 
 **Problem.** The reference files cross-link each other (`reference/javascript.md`,
 `reference/react.md`, etc.) and `SKILL.md` links them all. None of these paths
@@ -60,7 +66,12 @@ repeatable link-check command noted for future edits.
 
 ---
 
-## 4. CONTRIBUTING guide: how to add a language  `TODO`
+## 4. CONTRIBUTING guide: how to add a language  `DONE`
+
+> Done: CONTRIBUTING.md documents the repo layout, the eight-example Core and its
+> fixed order, the file structure, the extension-file model (react /
+> style-and-smells / general), the prose rules, and the link-check command.
+
 
 **Problem.** Adding a language follows a precise pattern (the eight-example Core
 in fixed order, plus a Language-specific notes section), but that pattern is only
