@@ -107,11 +107,17 @@ principles in that language's own idioms.
 | Language | File | When to open it |
 | --- | --- | --- |
 | Python | `reference/python.md` | Writing or reviewing Python. |
-| TypeScript | `reference/typescript.md` | Writing or reviewing TypeScript or JavaScript. |
+| TypeScript | `reference/typescript.md` | Writing or reviewing TypeScript. |
+| JavaScript | `reference/javascript.md` | Writing or reviewing plain (frontend) JavaScript, no framework. |
+| React | `reference/react.md` | Writing or reviewing React components. Extension file; builds on the JavaScript and TypeScript files. |
 | Go | `reference/go.md` | Writing or reviewing Go. |
 | Java | `reference/java.md` | Writing or reviewing Java. |
 | C# | `reference/csharp.md` | Writing or reviewing C#. |
 | Any other | `reference/general.md` | A language not listed above, or when you want the principle stated language-agnostically. |
+
+Every file except `reference/react.md` carries the same eight-example Core in the
+same order. `react.md` is an extension: it covers only React-specific shapes and
+points back to the JavaScript and TypeScript files for the Core.
 
 The reference files only add worked examples; they do not hold any rule of their
 own. If the language is not listed, or no example fits, the principles, tie-breaks,

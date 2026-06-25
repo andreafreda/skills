@@ -2,7 +2,8 @@
 
 Apply TypeScript's own idioms: typed signatures over `any`, JSDoc on the public
 surface, discriminated unions over boolean flags, narrow early. Examples back the
-principles in `SKILL.md`, which holds the rules.
+principles in `SKILL.md`, which holds the rules. For React components, see
+`reference/react.md`; for untyped frontend JS, see `reference/javascript.md`.
 
 The "Core" section is the same set of examples in every language file, in the
 same order, so you can calibrate across languages.
