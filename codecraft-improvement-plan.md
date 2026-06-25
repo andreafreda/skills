@@ -110,7 +110,26 @@ the results justify.
 
 ---
 
-## 6. Repeatable cold-feedback loop  `TODO`
+## 6. Repeatable cold-feedback loop  `IN PROGRESS (iteration 1 done)`
+
+> Procedure (re-run after each round of changes; the main thread launches each
+> iteration manually):
+> 1. Spawn one fresh-context subagent (Agent tool, `general-purpose`) with an
+>    adversarial, non-sycophantic prompt: read SKILL.md + all reference files,
+>    return findings as severity / location / problem / fix, ordered by severity,
+>    plus the top 3 highest-leverage changes. No praise, no summary.
+> 2. Main thread triages: real vs noise vs conflicts-with-philosophy.
+> 3. Bring the triaged buckets to the user; decide together what to action.
+> 4. Apply only the agreed changes.
+> 5. Only after the changes are committed, spawn the next fresh subagent on the
+>    updated skill. Repeat.
+>
+> Iteration 1 (2026-06-25): cold review returned 0 critical, 5 major, ~10 minor.
+> Triaged into buckets A (example bugs), B (doc/contract precision), C
+> (description rewrite), D (de-dup + anchors). User approved A, B, C; D deferred
+> to a later round. A and B shipped in commit `35aa1cd`; C (description rewrite)
+> shipped separately. Next: run iteration 2 against the updated skill.
+
 
 **Problem.** We improve the skill by our own judgement, which is prone to
 self-congratulation. We want an outside, cold critic on demand.

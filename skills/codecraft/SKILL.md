@@ -1,13 +1,17 @@
 ---
 name: codecraft
 description: >-
-  Write code the way a thoughtful human engineer would: plain, obvious, easy to
-  follow, never machine-dense or over-abstracted. Use whenever writing or
-  refactoring code in any project, or reviewing a diff for readability, or when
-  the user mentions readability, simplicity, "clean code", "as if written by
-  hand", or invokes /codecraft. Skip it as the primary lens when the task's main
-  goal is a performance hot path, an urgent hotfix, or a security review; there
-  readability is a later pass.
+  Make code read as if a thoughtful human engineer wrote it: plain, obvious, easy
+  to follow, never machine-dense or over-abstracted. Apply this as a cross-cutting
+  lens whenever writing, implementing, or refactoring a function, class, module,
+  or component, and when reviewing a diff for readability, in any language. It
+  co-applies with framework or language skills rather than replacing them, so use
+  it even when another skill (React, Angular, etc.) is already engaged. Also use
+  it when the user mentions readability, simplicity, "clean code", maintainability,
+  "as if written by hand", or invokes /codecraft. Skip it for trivial or
+  mechanical edits (a one-line tweak, a version bump, a print statement), and as
+  the primary lens when the task's main goal is a performance hot path, an urgent
+  hotfix, or a security review; there readability is a later pass.
 ---
 
 # codecraft
