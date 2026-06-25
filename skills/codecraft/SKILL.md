@@ -210,3 +210,19 @@ decode it. Then run through:
 - [ ] One kind of change per commit.
 - [ ] A structural smell or SOLID violation a cheap change would fix is fixed,
       if it keeps the code simple.
+
+## References
+
+The principles here are the author's own framing, but they lean on well-known
+prior work. For the reader who wants the source:
+
+- Kent Beck's four rules of simple design, via Martin Fowler:
+  https://martinfowler.com/bliki/BeckDesignRules.html
+- SOLID principles (definitions):
+  https://en.wikipedia.org/wiki/SOLID
+- "A Solid Guide to SOLID Principles", Baeldung:
+  https://www.baeldung.com/solid-principles
+- Python caching idioms (`functools.lru_cache`), standard library docs:
+  https://docs.python.org/3/library/functools.html
+- "Caching in Python Using the LRU Cache Strategy", Real Python:
+  https://realpython.com/lru-cache-python/

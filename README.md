@@ -44,8 +44,25 @@ come up.
 ## Layout
 
 ```
-skills/<name>/SKILL.md
+skills/<name>/SKILL.md            # the guidance body
+skills/<name>/reference/*.md      # optional, loaded on demand
 ```
 
 Each skill is a directory under `skills/` with a `SKILL.md`: YAML frontmatter
-(`name`, `description`) followed by the guidance body.
+(`name`, `description`) followed by the guidance body. Longer material, such as
+per-language worked examples, lives in a `reference/` folder so the main guide
+stays short and Claude loads only what it needs. For `codecraft` that means one
+file per language (`python`, `typescript`, `go`, `java`, `csharp`) plus a
+language-agnostic `general.md`.
+
+---
+
+## Credits and references
+
+The `codecraft` framing is the author's own, but it builds on well-known prior
+work. Full source links live in `skills/codecraft/SKILL.md` under "References";
+the headline ones:
+
+- **Kent Beck's four rules of simple design**, via [Martin Fowler](https://martinfowler.com/bliki/BeckDesignRules.html).
+- **SOLID principles** ([Wikipedia](https://en.wikipedia.org/wiki/SOLID), [Baeldung](https://www.baeldung.com/solid-principles)).
+- **Python caching idioms** ([standard library docs](https://docs.python.org/3/library/functools.html), [Real Python](https://realpython.com/lru-cache-python/)).
